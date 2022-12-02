@@ -25,24 +25,23 @@ where P: AsRef<Path>, {
 
 fn main() {
     let input_path = "../input.txt";
-    let mut elves: Vec<ElfCalories> = vec![];
-    let mut max_calorie_elf: u32 = 0;
+    let mut elves_max_calories: Vec<u32> = Vec::new();
     if let Ok(lines) = lazy_file_reader(input_path) {
-        let mut elf_calories: Vec<u32> = vec![];
+        let mut elf_calories: Vec<u32> = Vec::new();
         for line in lines {
             if let Ok(calorie) = line {
                 if calorie == "" {
                     let elf = ElfCalories::new(&elf_calories);
-                    if elf.total_calories > max_calorie_elf {
-                        max_calorie_elf = elf.total_calories
-                    }
-                    elves.push(elf);
-                    let mut elf_calories: Vec<u32> = vec![];
+                    elves_max_calories.push(elf.total_calories);
+                    elf_calories.clear();
                     continue;
                 }
                 elf_calories.push(calorie.parse::<u32>().unwrap());
             }
         }
     }
-    print!("The elf with maximum calories has {} calories", max_calorie_elf);
+    elves_max_calories.sort();
+    elves_max_calories.reverse();
+    println!("The elf with maximum calories has {} calories", elves_max_calories[0]);
+    println!("The total calories by top 3 elves is {}", elves_max_calories[0..=2].iter().sum::<u32>());
 }
