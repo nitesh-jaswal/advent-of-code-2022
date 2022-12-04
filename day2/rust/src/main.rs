@@ -56,7 +56,7 @@ impl RockPaperScissors {
     }
 }
 
-fn compute_round_score(player_input: RockPaperScissors, opponent_input: RockPaperScissors) -> u32 {
+fn compute_round_score(opponent_input: RockPaperScissors, player_input: RockPaperScissors) -> u32 {
     let base_score: u32 = match player_input {
         RockPaperScissors::Rock => 1,
         RockPaperScissors::Paper => 2,
@@ -83,14 +83,14 @@ fn main() {
         for line in lines {
             if let Ok(strategy_input) = line {
                 let mut input_iterator = strategy_input.split_whitespace();
-                let player_input = RockPaperScissors::new(input_iterator.next().unwrap());
                 let opponent_input = RockPaperScissors::new(input_iterator.next().unwrap());
+                let player_input = RockPaperScissors::new(input_iterator.next().unwrap());
                 if player_input.is_none() || opponent_input.is_none() {
                     panic!("Invalid input in {}! Please verify", input_path);
                 }
                 let round_score = compute_round_score(
-                    player_input.unwrap(), 
-                    opponent_input.unwrap()
+                    opponent_input.unwrap(), 
+                    player_input.unwrap()
                 );
                 total_score += round_score;
             }
